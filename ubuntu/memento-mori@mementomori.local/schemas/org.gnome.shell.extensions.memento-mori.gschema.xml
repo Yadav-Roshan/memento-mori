@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+    <schema id="org.gnome.shell.extensions.memento-mori" path="/org/gnome/shell/extensions/memento-mori/">
+        <key name="birthdate" type="x">
+            <default>0</default>
+            <summary>Birthdate timestamp</summary>
+            <description>Unix timestamp in milliseconds of the user's birthdate</description>
+        </key>
+    </schema>
+</schemalist>

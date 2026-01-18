@@ -1,0 +1,12 @@
+{
+    "uuid": "memento-mori@mementomori.local",
+    "name": "Memento Mori",
+    "description": "Display your age (time on Earth) in the top panel",
+    "shell-version": [
+        "45",
+        "46",
+        "47"
+    ],
+    "version": 1,
+    "url": "https://github.com/user/memento-mori"
+}
