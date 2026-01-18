@@ -1,6 +1,9 @@
 package com.mementomori
 
 import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -11,6 +14,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import java.util.Calendar
 
@@ -104,6 +108,12 @@ class MainActivity : AppCompatActivity() {
             stopAgeService()
             startAgeService()
         }
+        
+        // Check for birthday
+        val today = Calendar.getInstance()
+        if (datePicker.month == today.get(Calendar.MONTH) && datePicker.dayOfMonth == today.get(Calendar.DAY_OF_MONTH)) {
+            showBirthdayNotification()
+        }
     }
     
     private fun requestNotificationPermissionAndStart() {
@@ -152,5 +162,28 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Notification permission required!", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun showBirthdayNotification() {
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        val channelId = "birthday_channel"
+        val channelName = "Birthday Notifications"
+        val importance = NotificationManager.IMPORTANCE_HIGH
+        val channel = NotificationChannel(channelId, channelName, importance)
+        notificationManager.createNotificationChannel(channel)
+
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
+
+        val notification = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.ic_skull)
+            .setContentTitle("A Reminder")
+            .setContentText("Another year closer to the end. Make it count. Happy Birthday.")
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setContentIntent(pendingIntent)
+            .setAutoCancel(true)
+            .build()
+
+        notificationManager.notify(2, notification)
     }
 }
