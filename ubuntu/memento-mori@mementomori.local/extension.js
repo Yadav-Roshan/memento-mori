@@ -3,6 +3,8 @@
  */
 
 import GLib from 'gi://GLib';
+import GObject from 'gi://GObject';
+import Clutter from 'gi://Clutter';
 import St from 'gi://St';
 import Gio from 'gi://Gio';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
@@ -14,7 +16,7 @@ let mementoMoriIndicator = null;
 
 class MementoMoriIndicator extends PanelMenu.Button {
     static {
-        GLib.Object.registerClass(this);
+        GObject.registerClass(this);
     }
 
     constructor(extension) {
@@ -25,8 +27,8 @@ class MementoMoriIndicator extends PanelMenu.Button {
 
         // Create the label for the panel
         this._label = new St.Label({
-            text: '💀 Loading...',
-            y_align: GLib.AlignmentFlags.CENTER,
+            text: '⌛ 💀 Loading...',
+            y_align: Clutter.ActorAlign.CENTER,
             style_class: 'memento-mori-label'
         });
 
@@ -123,14 +125,14 @@ class MementoMoriIndicator extends PanelMenu.Button {
         const age = this._calculateAge();
 
         if (!age.valid) {
-            return '💀 Set birthdate';
+            return '⌛ 💀 Set birthdate';
         }
 
         const h = String(age.hours).padStart(2, '0');
         const m = String(age.minutes).padStart(2, '0');
         const s = String(age.seconds).padStart(2, '0');
 
-        return `💀 ${age.years}y ${age.days}d ${h}:${m}:${s}`;
+        return `⌛ 💀 ${age.years}y ${age.days}d ${h}:${m}:${s}`;
     }
 
     _showAgeDetails() {
